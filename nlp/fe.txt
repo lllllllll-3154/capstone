@@ -1,0 +1,40 @@
+Demographics - As demographics, we considered four static features: gender 
+(male/female), race/ethnicity (white/black/asian/native american/others/unknown), age at 
+time of observation, smoking habit (yes/no) and coded them as categorical variables (age 
+binned into 10 groups). In case of change in smoking status, we only considered the 
+current observation and coded as ‘Smoking’/‘Non-smoking’. 
+Vitals - We considered only the primary vital signs of the patient which includes systolic 
+and diastolic blood pressure, height, weight, body mass index (BMI), temperature, 
+respiration rate, pulse oximetry (spO2), and heart rate. For both internal and external 
+datasets, the primary vitals are recorded using the LOINC standard coding system1
+. In 
+order to capture temporality, we measured the sensitivity to change in primary vitals within 
+a 30 day window by computing derivatives of each vital sign along the temporal axis 
+where first value is the normal range of the targeted vital. The derivative of a vital can be 
+represented as ௗ௒ௗ௧where ܻൌ݂ሺܺሻ,ܺ ൌ ݔே , ݔଵ , ݔଶ ,…..ݔ௧ is a measure of the ݔ	vital over 
+time ݐ and ݔ ே is normal range of the targeted vital. Given that majority of the targeted 
+population are adults (with mean age: Stanford 60.53 and Duke 70.2), as normal range ݔே
+we considered vital signs against normal values if prior baseline vitals were not available. 
+Inpatient and Outpatient medication - The inpatient and outpatient drug formulary and 
+vocabularies were mapped to a 2016 version of RxNorm2
+. Prescription orders were 
+distilled to the Pharmacologic class labels which active moieties that share scientifically 
+documented properties is defined on the basis of any combination of three attributes: 
+Mechanism of Action (MOA), Physiologic Effect (PE), and Chemical Structure (CS), that 
+the FDA has determined to be scientifically valid and clinically meaningful. For drug 
+feature engineering, we considered a 12 month window and identified 641 unique 
+Pharmacologic class of drugs given to the training set SHC patients (inpatient and 
+outpatient). Afterwards, we coded the medication usage as two numeric representations 
+as: (1) presence/absence of the medication which is a binary value that captures if 
+medication from a particular Pharmacologic class given to the patient within the 12 month 
+window; (2) frequency of the medication as a numeric value to captures how many times 
+the particular medication was repeated within 12 months. 
+Diagnosis code - Diagnosis codes considered were ICD-9 format (codes with less than 1% 
+occurrences in the training set were excluded). In order to limit the learning space, the 
+diagnosis codes were collapsed to the top diagnosis categories using the the International 
+Classification of Diseases, Version 9. Expansion to subcategories was performed with 
+review of ICD9 taxonomy such that in total 141 unique diagnosis groupings (see 
+Supplement Table 1) were generated for each group as a binary variable representing the 
+presence/absence of a particular diagnosis within the 12 month window. For ensuring no 
+data leakage, we dropped all ICD-9 codes recorded from the same encounter 
+(hospitalization and ED visit) as of the CT exam from our analysis.
